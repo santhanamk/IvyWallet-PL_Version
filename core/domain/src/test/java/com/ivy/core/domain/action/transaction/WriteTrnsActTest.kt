@@ -1,10 +1,7 @@
 package com.ivy.core.domain.action.transaction
 
-import android.net.Uri
 import assertk.assertThat
 import assertk.assertions.isNotNull
-import com.ivy.core.data.Tag
-import com.ivy.core.data.TagId
 import com.ivy.core.domain.algorithm.accountcache.InvalidateAccCacheAct
 import com.ivy.core.persistence.dao.trn.AccountCacheDaoFake
 import com.ivy.core.persistence.dao.trn.TimeProviderFake
@@ -18,7 +15,8 @@ import com.ivy.data.attachment.AttachmentSource
 import com.ivy.data.attachment.AttachmentType
 import com.ivy.data.category.CategoryState
 import com.ivy.data.category.CategoryType
-import com.ivy.data.tag.*
+import com.ivy.data.tag.Tag
+import com.ivy.data.tag.TagState
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnMetadata
@@ -80,7 +78,5 @@ internal class WriteTrnsActTest {
         assertThat(trnTagEntity).isNotNull()
         assertThat(attachmentsEntity).isNotNull()
     }
-
-
     }
 }
