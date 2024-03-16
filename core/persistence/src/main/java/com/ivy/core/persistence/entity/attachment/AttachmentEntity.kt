@@ -25,7 +25,7 @@ data class AttachmentEntity(
     val type: AttachmentType?,
 
     @ColumnInfo(name = "sync", index = true)
-    val sync: SyncState,
+    var sync: SyncState,
     @ColumnInfo(name = "last_updated")
     val lastUpdated: Instant,
 )

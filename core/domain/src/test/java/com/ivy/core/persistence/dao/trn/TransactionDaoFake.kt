@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Assertions.*
 class TransactionDaoFake: TransactionDao() {
 
     val transactionEntities: MutableList<TransactionEntity> = mutableListOf()
-    var trnTagEntities: List<TrnTagEntity> = mutableListOf()
-    var attachmentEntities: List<AttachmentEntity> = mutableListOf()
-    var trnMetadataEntities: List<TrnMetadataEntity> = mutableListOf()
+    var trnTagEntities: MutableList<TrnTagEntity> = mutableListOf()
+    var attachmentEntities: MutableList<AttachmentEntity> = mutableListOf()
+    var trnMetadataEntities: MutableList<TrnMetadataEntity> = mutableListOf()
     override suspend fun saveTrnEntity(entity: TransactionEntity) {
         transactionEntities.add(entity)
     }
@@ -30,42 +30,72 @@ class TransactionDaoFake: TransactionDao() {
     }
 
     override suspend fun saveTags(entity: List<TrnTagEntity>) {
-        trnTagEntities = entity
+        trnTagEntities.addAll(entity)
     }
 
     override suspend fun updateAttachmentsSyncByAssociatedId(
         associatedId: String,
         sync: SyncState
     ) {
-        TODO("Not yet implemented")
+        val entity = attachmentEntities.find {
+            it.id == associatedId
+        }
+        val index = attachmentEntities.indexOf(entity)
+        entity?.sync = sync
+        if (entity != null) {
+            attachmentEntities[index] = entity
+        }
     }
 
     override suspend fun saveAttachments(entity: List<AttachmentEntity>) {
-        attachmentEntities = entity
+        attachmentEntities.addAll(entity)
     }
 
     override suspend fun updateMetadataSyncByTrnId(trnId: String, sync: SyncState) {
-        TODO("Not yet implemented")
+        val entity = trnMetadataEntities.find {
+            it.id == trnId
+        }
+        val index = trnMetadataEntities.indexOf(entity)
+        entity?.sync = sync
+        if (entity != null) {
+            trnMetadataEntities[index] = entity
+        }
     }
 
     override suspend fun saveMetadata(entity: List<TrnMetadataEntity>) {
-        trnMetadataEntities = entity
+        trnMetadataEntities.addAll(entity)
     }
 
     override suspend fun findAllBlocking(): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return transactionEntities
     }
 
+    // not supported for this fake
     override suspend fun findBySQL(query: SupportSQLiteQuery): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return transactionEntities
     }
 
     override suspend fun findAccountIdAndTimeById(trnId: String): AccountIdAndTrnTime? {
-        TODO("Not yet implemented")
+        val entity = transactionEntities.find {
+            it.id == trnId && it.sync == SyncState.Deleting
+        }?: return null
+
+        return AccountIdAndTrnTime(
+            accountId = entity.accountId,
+            time = entity.time,
+            timeType = entity.timeType
+        )
     }
 
     override suspend fun updateTrnEntitySyncById(trnId: String, sync: SyncState) {
-        TODO("Not yet implemented")
+        val entity = trnMetadataEntities.find {
+            it.id == trnId
+        }
+        val index = trnMetadataEntities.indexOf(entity)
+        entity?.sync = sync
+        if (entity != null) {
+            trnMetadataEntities[index] = entity
+        }
     }
 
 }
