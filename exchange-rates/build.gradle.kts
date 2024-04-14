@@ -12,6 +12,11 @@ plugins {
 apply<com.ivy.buildsrc.IvyComposePlugin>()
 
 dependencies {
+    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    implementation(project(":core:domain"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:domain"))
+    testImplementation("org.testng:testng:6.9.6")
     Hilt()
     implementation(project(":design-system"))
     implementation(project(":core:domain"))

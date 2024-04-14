@@ -3,6 +3,7 @@ package com.ivy.exchangeRates
 import com.ivy.exchangeRates.data.RateUi
 import com.ivy.core.domain.action.SharedFlowAction
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
+import com.ivy.core.domain.pure.util.DispatcherProvider
 import com.ivy.core.persistence.algorithm.calc.Rate
 import com.ivy.core.persistence.algorithm.calc.RatesDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,7 +18,8 @@ import javax.inject.Singleton
 @Singleton
 class RatesStateFlow @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,
-    private val ratesDao: RatesDao
+    private val ratesDao: RatesDao,
+    private val dispatcher: DispatcherProvider
 ) : SharedFlowAction<RatesState>() {
     override fun initialValue(): RatesState = RatesState(
         baseCurrency = "",
