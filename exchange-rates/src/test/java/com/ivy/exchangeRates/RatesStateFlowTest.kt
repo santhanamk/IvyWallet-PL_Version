@@ -61,9 +61,6 @@ class RatesStateFlowTest {
             ratesStateFlow().test{
                 awaitItem() // initial emission, ignore
 
-//                exchangeRateDao.save(exchangeRates)
-//                exchangeRateOverrideDao.save(exchangeRateOverrides)
-
                 val rates1 = awaitItem()
                 assertThat(rates1.baseCurrency).isEqualTo("EUR")
                 assertThat(rates1.manual).size().isEqualTo(1)
@@ -71,17 +68,6 @@ class RatesStateFlowTest {
                 val badRate = RateUi("EUR", "USD", 1.3)
                 assertThat(rates1.automatic).doesNotContain(badRate)
                 assertThat(rates1.manual).contains(badRate)
-//                assertThat(rates1.rates["USD"]).isEqualTo(1.3)
-//                assertThat(rates1.rates["CAD"]).isEqualTo(1.5) // Override rate
-//                assertThat(rates1.rates["AUD"]).isEqualTo(1.9)
-//
-//                exchangeRateOverrideDao.save(listOf())
-//
-//                val rates2 = awaitItem()
-//                assertThat(rates2.rates).hasSize(3)
-//                assertThat(rates2.rates["USD"]).isEqualTo(1.3)
-//                assertThat(rates2.rates["CAD"]).isEqualTo(1.7) // Real rate
-//                assertThat(rates2.rates["AUD"]).isEqualTo(1.9)
             }
         }
     }
